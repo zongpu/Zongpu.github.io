@@ -224,6 +224,337 @@
     <header class="post-header">
       <h1 class="post-title">
         
+          <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%9810%EF%BC%9A%E6%96%90%E6%B3%A2%E6%8B%89%E5%A5%91%E6%95%B0%E5%88%97/">面试题10：斐波拉契数列</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-01-09
+        </span>
+        
+          <span class="post-category">
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>题目：<a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="noopener">https://www.nowcoder.com/ta/coding-interviews</a></p>
+<p>现在要求输入一个整数n；</p>
+<p>输出斐波那契数列的第n项（从0开始，第0项为0）。<br>n&lt;=39</p>
+<p>斐波那契数列 ：</p>
+<p>因数学家列昂纳多·斐波那契（Leonardoda Fibonacci）以兔子繁殖为例子而引入，故又称为“兔子数列”，指的是这样一个数列：1、1、2、3、5、8、13、21、34、……在数学上，斐波纳契数列以如下被以递推的方法定义：F(1)=1，F(2)=1, F(n)=F(n-1)+F(n-2)（n&gt;=2，n∈N*）</p>
+<p>方法1：直接利用递归的方法</p>
+<p>这样的方法效率低，存在大量重复计算:</p>
+<p>例如，想过要求得f(10)需要先求得f(9)、f(8)；要求得f(9)要先求得f(8)、f(7)…如此等等。在剑指offer中给出了直观的依赖关系树形结构</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Fibonacci</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> n&lt;=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> n == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> self.Fibonacci(n<span class="number">-1</span>)+ self.Fibonacci(n<span class="number">-2</span>)<span class="comment">#递归调用的写法！！！self.function</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution()</span><br><span class="line">answer = method.Fibonacci(<span class="number">8</span>)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>21</code></pre><p>解法2：</p>
+<p>为了避免重复计算，可以选择从下往上计算，f(0)–&gt;f(1)–&gt;f(2)–&gt;…–&gt;f(10)…以此类推得到第n项。时间复杂度为O(n)。<br>可以用数组存储，空间复杂度 O(n)；也可以用变量存储，空间复杂度 O(1)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution1</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Fibonacci</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> n&lt;=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> n == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a = <span class="number">0</span></span><br><span class="line">            b = <span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,n+<span class="number">1</span>):<span class="comment">#从第2到n</span></span><br><span class="line">                b = a + b<span class="comment">#更新b（当前非波拉契数列的值）</span></span><br><span class="line">                a = b - a<span class="comment">#a（保留前一个非波拉契数列的值）</span></span><br><span class="line">            <span class="keyword">return</span> b</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution1()</span><br><span class="line">answer = method.Fibonacci(<span class="number">8</span>)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>21</code></pre><p>方法3：利用python的相关特性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution2</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Fibonacci</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> n&lt;=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a,b=<span class="number">0</span>,<span class="number">1</span> </span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>):<span class="comment">#循环n-1次</span></span><br><span class="line">                a,b=b,a+b<span class="comment">#a的变化？先计算右边的值再同时赋值给左边</span></span><br><span class="line">            <span class="keyword">return</span> b</span><br></pre></td></tr></table></figure>
+
+<p>先将b赋予a；再更新b，跟Solution1中的方法相似</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution2()</span><br><span class="line">answer = method.Fibonacci(<span class="number">3</span>)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>2</code></pre><p>利用列表来实现是我感觉很赞的方法,最直观明了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution3</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Fibonacci</span><span class="params">(self, n)</span>:</span></span><br><span class="line">        a = [<span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">        <span class="keyword">if</span> n&lt;=<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> a[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> a[n]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>, n+<span class="number">1</span>):</span><br><span class="line">                a.append(a[i<span class="number">-1</span>] + a[i<span class="number">-2</span>])</span><br><span class="line">        <span class="keyword">return</span> a[n]</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution3()</span><br><span class="line">answer = method.Fibonacci(<span class="number">8</span>)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>21</code></pre><p>参考：</p>
+<p><a href="https://blog.csdn.net/fuxuemingzhu/article/details/79501434" target="_blank" rel="noopener">https://blog.csdn.net/fuxuemingzhu/article/details/79501434</a></p>
+<p><a href="https://blog.csdn.net/Datawhale/article/details/82152447" target="_blank" rel="noopener">https://blog.csdn.net/Datawhale/article/details/82152447</a></p>
+<p><a href="https://doocs.gitee.io/coding-interview/#/docs/coding-interview" target="_blank" rel="noopener">https://doocs.gitee.io/coding-interview/#/docs/coding-interview</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+      
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%9810%EF%BC%9A%E8%B7%B3%E5%8F%B0%E9%98%B6/">面试题10：跳台阶</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-01-09
+        </span>
+        
+          <span class="post-category">
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>题目：<a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="noopener">https://www.nowcoder.com/ta/coding-interviews</a></p>
+<p>这是在“面试题10：非波拉契数列”中的另一个题目</p>
+<p>一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。</p>
+<p>理解：</p>
+<p>如果有1级台阶，只有1种 ；如果有2级台阶，有1–1、2两种 ；如果有3级台阶，有1–1–1、1–2、2–1三种跳法</p>
+<p>假设n级台阶有F(n)种跳法，一定是先跳1级或者先跳2级这两类方式，再继续跳到n级台阶，跳1级后有F(n-1)种，跳2级后有F(n-2)种，故共有F(n)=F(n-1)+F(n-2)。这与斐波拉契数列一致。</p>
+<p>但是跳台阶没有0级台阶：F(1)=1,F(2)=2,F(3)=3,F(4)=5,…,F(n)=F(n-1)+F(n-2),…</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution1</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jumpFloor</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> number == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> number == <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a = <span class="number">1</span></span><br><span class="line">            b = <span class="number">2</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,number):</span><br><span class="line">                b = a + b</span><br><span class="line">                a = b - a</span><br><span class="line">            <span class="keyword">return</span> b</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution1()</span><br><span class="line">answer = method.jumpFloor(<span class="number">5</span>)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>8</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">jumpFloor</span><span class="params">(self, number)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> number == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> number == <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            a = <span class="number">1</span></span><br><span class="line">            b = <span class="number">2</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>,number):</span><br><span class="line">                a,b = b,a+b</span><br><span class="line">            <span class="keyword">return</span> b</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution()</span><br><span class="line">answer = method.jumpFloor(<span class="number">5</span>)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>8</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+      
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%9811%EF%BC%9A%E6%97%8B%E8%BD%AC%E6%95%B0%E7%BB%84%E7%9A%84%E6%9C%80%E5%B0%8F%E6%95%B0%E5%AD%97/">面试题11：旋转数组的最小数字</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-01-09
+        </span>
+        
+          <span class="post-category">
+            
+              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+            
+          </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>题目：<a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="noopener">https://www.nowcoder.com/ta/coding-interviews</a></p>
+<p>把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。</p>
+<p>输入一个<strong>非递减排序</strong>的数组的一个旋转，输出旋转数组的最小元素。</p>
+<p>例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。</p>
+<p>NOTE：给出的所有元素都大于0，若数组大小为0，请返回0。</p>
+<p>思考：</p>
+<p>利用旋转数组的特性来设计查找最小值的方法。</p>
+<p>原数组是<strong>非递减排序</strong>的，旋转数组可划分为两个非递减子数组，并且前面子数组的元素都&gt;=后面子数组的元素，最小元素恰好是两个数组的分界线；</p>
+<p>暴力的o(n)查找</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution1</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minNumberInRotateArray</span><span class="params">(self, rotateArray)</span>:</span></span><br><span class="line">        min = rotateArray[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> len(rotateArray)==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span> </span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,len(rotateArray)):</span><br><span class="line">                <span class="keyword">if</span> rotateArray[i] &lt; min:</span><br><span class="line">                    min = rotateArray[i]</span><br><span class="line">            <span class="keyword">return</span> min</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rotateArray = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">method = Solution1()</span><br><span class="line">method.minNumberInRotateArray(rotateArray)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>1</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># for i in range(0,5):#不会包含最后一个索引，左闭右开</span></span><br><span class="line"><span class="comment">#     print(i)</span></span><br><span class="line"><span class="comment"># for i in range(0,len(rotateArray)):</span></span><br><span class="line"><span class="comment">#     print(rotateArray[i])</span></span><br></pre></td></tr></table></figure>
+
+<p>根据旋转数组的特性设计二分查找:</p>
+<p>1.设置中间点，标记旋转数组首元素和尾元素，中间点将数组分成两半;</p>
+<p>2.如果中间点大于等于首元素，说明最小数字在数组后一半，如果中间点小于等于尾元素，说明最小数字在数组前一半;</p>
+<p>3.依次改变首、尾元素的位置，当尾元素和首元素挨着的时候，这时候<strong>尾元素</strong>就是所找的最小值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution2</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minNumberInRotateArray</span><span class="params">(self, rotateArray)</span>:</span></span><br><span class="line">        left = <span class="number">0</span></span><br><span class="line">        right = len(rotateArray)<span class="number">-1</span></span><br><span class="line">        <span class="keyword">if</span> len(rotateArray)==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">while</span>(right - left) &gt; <span class="number">1</span>:</span><br><span class="line">                mid = (left + right)//<span class="number">2</span><span class="comment">#商向下取整的结果</span></span><br><span class="line">                <span class="keyword">if</span> rotateArray[mid] &gt;= rotateArray[left]:<span class="comment">#中间值在第一组比左大，最小值在mid右</span></span><br><span class="line">                    left = mid<span class="comment">#更新左 </span></span><br><span class="line">                <span class="keyword">elif</span> rotateArray[mid] &lt;= rotateArray[right]:<span class="comment">#中间值在第二组比右小，最小值在mid左</span></span><br><span class="line">                    right = mid<span class="comment">#更新右</span></span><br><span class="line">            <span class="keyword">return</span> rotateArray[right]<span class="comment">#右元素为最小</span></span><br><span class="line">            <span class="comment">#当不满足while条件时，说明数组有两个元素（或者一个元素），直接返回旋转数组右边元素即可</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rotateArray = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">method = Solution2()</span><br><span class="line">method.minNumberInRotateArray(rotateArray)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>1</code></pre><p>特殊的是，当首元素等于尾元素等于中间值时，以上比较规则失效，只能对数组进行顺序查找，增加如下判断：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution3</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minNumberInRotateArray</span><span class="params">(self, rotateArray)</span>:</span></span><br><span class="line">        left = <span class="number">0</span></span><br><span class="line">        right = len(rotateArray)<span class="number">-1</span></span><br><span class="line">        <span class="keyword">if</span> len(rotateArray)==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">while</span>(right - left) &gt; <span class="number">1</span>:</span><br><span class="line">                mid = (left + right)//<span class="number">2</span><span class="comment">#商向下取整的结果</span></span><br><span class="line">                <span class="keyword">if</span> rotateArray[mid] == rotateArray[left] <span class="keyword">and</span> rotateArray[mid] == rotateArray[right]:</span><br><span class="line">                    <span class="comment">#特殊情况，当首元素等于尾元素等于中间值时，只能对数组进行顺序查找</span></span><br><span class="line">                    min = rotateArray[left]</span><br><span class="line">                    <span class="keyword">for</span> i <span class="keyword">in</span> range(left,right):</span><br><span class="line">                        <span class="keyword">if</span> rotateArray[i] &lt; min:</span><br><span class="line">                            min = rotateArray[i]</span><br><span class="line">                    <span class="keyword">return</span> min </span><br><span class="line">                <span class="keyword">elif</span> rotateArray[mid] &gt;= rotateArray[left]:<span class="comment">#中间值在第一组比左大，最小值在mid右</span></span><br><span class="line">                    left = mid<span class="comment">#更新左 </span></span><br><span class="line">                <span class="keyword">elif</span> rotateArray[mid] &lt;= rotateArray[right]:<span class="comment">#中间值在第二组比右小，最小值在mid左</span></span><br><span class="line">                    right = mid<span class="comment">#更新右</span></span><br><span class="line">            <span class="keyword">return</span> rotateArray[right]<span class="comment">#右元素为最小</span></span><br><span class="line">            <span class="comment">#当不满足while条件时，说明数组有两个元素（或者一个元素），直接返回旋转数组右边元素即可</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rotateArray = [4, 5, 6, 1, 2, 3]</span></span><br><span class="line">rotateArray = [ <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line">method = Solution3()</span><br><span class="line">method.minNumberInRotateArray(rotateArray)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>1</code></pre><p>剑指offer书中还考虑到旋转数组旋转了0个元素的情况，也就是排序数组本身:第一个元素（左）就是最小的元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minNumberInRotateArray</span><span class="params">(self, rotateArray)</span>:</span></span><br><span class="line">        left = <span class="number">0</span></span><br><span class="line">        right = len(rotateArray)<span class="number">-1</span></span><br><span class="line">        <span class="keyword">if</span> len(rotateArray)==<span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">elif</span> rotateArray[left] &lt; rotateArray[right]:</span><br><span class="line">            <span class="keyword">return</span> rotateArray[left]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">while</span>(right - left) &gt; <span class="number">1</span>:</span><br><span class="line">                mid = (left + right)//<span class="number">2</span><span class="comment">#商向下取整的结果</span></span><br><span class="line">                <span class="keyword">if</span> rotateArray[mid] == rotateArray[left] <span class="keyword">and</span> rotateArray[mid] == rotateArray[right]:</span><br><span class="line">                    <span class="comment">#特殊情况，当首元素等于尾元素等于中间值时，只能对数组进行顺序查找</span></span><br><span class="line">                    min = rotateArray[left]</span><br><span class="line">                    <span class="keyword">for</span> i <span class="keyword">in</span> range(left,right):</span><br><span class="line">                        <span class="keyword">if</span> rotateArray[i] &lt; min:</span><br><span class="line">                            min = rotateArray[i]</span><br><span class="line">                    <span class="keyword">return</span> min </span><br><span class="line">                <span class="keyword">elif</span> rotateArray[mid] &gt;= rotateArray[left]:<span class="comment">#中间值在第一组比左大，最小值在mid右</span></span><br><span class="line">                    left = mid<span class="comment">#更新左 </span></span><br><span class="line">                <span class="keyword">elif</span> rotateArray[mid] &lt;= rotateArray[right]:<span class="comment">#中间值在第二组比右小，最小值在mid左</span></span><br><span class="line">                    right = mid<span class="comment">#更新右</span></span><br><span class="line">            <span class="keyword">return</span> rotateArray[right]<span class="comment">#右元素为最小</span></span><br><span class="line">            <span class="comment">#当不满足while条件时，说明数组有两个元素（或者一个元素），直接返回旋转数组右边元素即可</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">rotateArray = [  <span class="number">0</span>, <span class="number">1</span>,  <span class="number">1</span>, <span class="number">1</span>]</span><br><span class="line"><span class="comment"># rotateArray = [ 1, 0, 1,  1, 1,]</span></span><br><span class="line"><span class="comment"># rotateArray = [ 1, 1, 1, 0, 1]</span></span><br><span class="line"><span class="comment"># rotateArray = [4, 5, 6, 1, 2, 3]</span></span><br><span class="line">method = Solution()</span><br><span class="line">method.minNumberInRotateArray(rotateArray)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>0</code></pre><p>这里补充另一位博主的写法Solution4</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution4</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minNumberInRotateArray</span><span class="params">(self, rotateArray)</span>:</span></span><br><span class="line">        p1, p2 = <span class="number">0</span>, len(rotateArray) - <span class="number">1</span><span class="comment">#一样的操作固定首尾</span></span><br><span class="line">        mid = p1<span class="comment">#特殊情况下的最小值索引，即对应之前的旋转为0的旋转数组。结合下列循环条件来看，我觉得这里很精彩</span></span><br><span class="line">        <span class="keyword">while</span> rotateArray[p1] &gt;= rotateArray[p2]:<span class="comment">#和之前用索引大小来确定循环不同，这里直接用首元素&gt;=尾元素这个特性来确定循环</span></span><br><span class="line">            <span class="keyword">if</span> p2 - p1 == <span class="number">1</span>:<span class="comment">#首尾相邻，尾小，即为最小值</span></span><br><span class="line">                mid = p2<span class="comment">#最后统一返回mid索引下的元素</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line"><span class="comment">#             mid = (p1 + p2) / 2#原博主写法</span></span><br><span class="line">            mid = (p1 + p2) // <span class="number">2</span><span class="comment">#这里我觉得应该是取整才对</span></span><br><span class="line">            <span class="keyword">if</span> rotateArray[mid] == rotateArray[p1] <span class="keyword">and</span> rotateArray[mid] == rotateArray[p2]:</span><br><span class="line">                <span class="keyword">return</span> self.minInOrder(rotateArray, p1, p2)<span class="comment">#特殊情况，判断失效，只能遍历</span></span><br><span class="line">            <span class="keyword">if</span> rotateArray[mid] &gt;= rotateArray[p1]:</span><br><span class="line">                p1 = mid</span><br><span class="line">            <span class="keyword">elif</span> rotateArray[mid] &lt;= rotateArray[p2]:</span><br><span class="line">                p2 = mid</span><br><span class="line">        <span class="keyword">return</span> rotateArray[mid]<span class="comment">#最终p2会停留在mid上,写作rotateArray[p2]也没有区别，这里整段代码都统一返回mid索引值</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">minInOrder</span><span class="params">(self, nums, index1, index2)</span>:</span><span class="comment">#确定首尾，遍历一段数组，得到最小值</span></span><br><span class="line"><span class="comment">#         n1 = nums[index]#原博主写法</span></span><br><span class="line">        n1 = nums[index1]<span class="comment">#应改为</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(index1 + <span class="number">1</span>, index2):</span><br><span class="line">            <span class="keyword">if</span> n1 &gt; nums[i]:</span><br><span class="line">                <span class="keyword">return</span> nums[i]</span><br><span class="line">        <span class="keyword">return</span> n1</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># rotateArray = [ 0, 1, 1, 1]</span></span><br><span class="line"><span class="comment"># rotateArray = [ 1, 0, 1,  1, 1]</span></span><br><span class="line"><span class="comment"># rotateArray = [ 1, 1, 1, 0, 1]</span></span><br><span class="line">rotateArray = [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">method = Solution4()</span><br><span class="line">method.minNumberInRotateArray(rotateArray)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>1</code></pre><p>参考：</p>
+<p><a href="https://blog.csdn.net/Datawhale/article/details/82143776" target="_blank" rel="noopener">https://blog.csdn.net/Datawhale/article/details/82143776</a></p>
+<p><a href="https://blog.csdn.net/fuxuemingzhu/article/details/79501202" target="_blank" rel="noopener">https://blog.csdn.net/fuxuemingzhu/article/details/79501202</a></p>
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+      
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2020/01/09/%E6%9C%89%E5%85%B3ubuntu%E7%9A%84%E7%90%90%E7%A2%8E%E5%B0%8F%E4%BA%8B%E5%84%BF/">有关ubuntu的琐碎小事儿</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-01-09
+        </span>
+        
+          <span class="post-category">
+            
+              <a href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+            
+          </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <p>1.安装电子书阅读器：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install fbreader</span><br></pre></td></tr></table></figure>
+
+<p>2.安装谷歌访问助手</p>
+<p>​    a.百度下载<strong>谷歌访问助手 .crx **文件，将其重命名为</strong>.zip<strong>文件，然后解压；<br>​    b.打开，将其中</strong>_metadata<strong>文件重命名为</strong>metadata**；<br>​    c.chrome浏览器打开拓展程序界面开发者模式，加载已解压文件夹，done.<br>3.Ubuntu中python版本切换</p>
+<p>​    a.ubuntu中将python3设置为默认，执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 100</span><br><span class="line">sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 150</span><br></pre></td></tr></table></figure>
+
+<p>​    b.ubuntu中将python2设置为默认，执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --config python</span><br></pre></td></tr></table></figure>
+
+
+
+
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+      
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
           <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%9810%EF%BC%9A%E5%8F%98%E6%80%81%E8%B7%B3%E5%8F%B0%E9%98%B6/">面试题10：变态跳台阶</a>
         
       </h1>
@@ -277,433 +608,6 @@
 
 
 <pre><code>16</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-      
-        
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%989%EF%BC%9A%E7%94%A8%E4%B8%A4%E4%B8%AA%E6%A0%88%E5%AE%9E%E7%8E%B0%E9%98%9F%E5%88%97/">面试题9：用两个栈实现队列</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2020-01-09
-        </span>
-        
-          <span class="post-category">
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>题目：<br><a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="noopener">https://www.nowcoder.com/ta/coding-interviews</a></p>
-<p>用两个栈来实现一个队列；<br>完成队列的Push和Pop操作；</p>
-<p>思考：</p>
-<p>栈是有序的 LIFO，也就是后进先出（先进后出）;<br>队列是有序的FIFO，也就是先进先出。</p>
-<p>也就是要用两个先进后出的栈，实现先进先出的队列。</p>
-<p>例如：stack1={a}; stack2={};</p>
-<p>压入b,c:stack1={c,b,a}(a在栈底，c在栈顶);stack2={};</p>
-<p>当我们想要弹出a时，由于a在stack1底，不能直接弹出，于是我们先将stack1的元素按照栈先入后出的原则弹出并压入stack2有：stack2={a,b,c}(此时，a在栈顶，c在栈底)；</p>
-<p>于是，可以顺利从stack2中弹出a，总体上实现队列先入先出的性质。</p>
-<p>总结：</p>
-<p>push()方法可以利用list.append()方法实现；</p>
-<p>pop()方法：判断stack2是否为空，不空，依次弹出栈顶元素；为空，则先将stack1中元素按照先入后出的原则弹出并压入stack2，然后弹出stack2中栈顶元素；总体实现队列功能。</p>
-<p>python中可用列表表示后入先出的栈，list.pop()默认删除列表最后一个元素（此外，pop()有可选参数，如：list1.pop(1)，1为待删除元素的索引，pop方法返回删除的列表元素）；</p>
-<p>push()方法，可看作用list.append()往列表尾追加新元素。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="string">'Google'</span>, <span class="string">'Runoob'</span>, <span class="string">'Taobao'</span>]</span><br><span class="line">list_pop=list1.pop()</span><br><span class="line">print( <span class="string">"删除的项为 :"</span>, list_pop)</span><br><span class="line">print( <span class="string">"列表现在为 : "</span>, list1)</span><br></pre></td></tr></table></figure>
-
-<pre><code>删除的项为 : Taobao
-列表现在为 :  [&apos;Google&apos;, &apos;Runoob&apos;]</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">list2 = [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]</span><br><span class="line">list_push=list2.append(<span class="string">'new_4'</span>)</span><br><span class="line">print( <span class="string">"列表现在为 : "</span>, list2)</span><br></pre></td></tr></table></figure>
-
-<pre><code>列表现在为 :  [&apos;1&apos;, &apos;2&apos;, &apos;3&apos;, &apos;new_4&apos;]</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.stack1=[]</span><br><span class="line">        self.stack2=[<span class="string">'x'</span>,<span class="string">'y'</span>]<span class="comment">#顺序，先x，再y，说明在之前有：stack1=&#123;'y','x'&#125;,y比x先入栈</span></span><br><span class="line">    </span><br><span class="line"><span class="comment">#     def push(self, node):</span></span><br><span class="line"><span class="comment">#         self.stack1.append(node)#直接在stack1中压入元素</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#这是一个参考博主的写法，增加了对stack1是否为空的判断及操作</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, node)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.stack1:<span class="comment">#如果stack1非空，在其中压入元素</span></span><br><span class="line">            self.stack1.append(node)</span><br><span class="line">        <span class="keyword">else</span>:<span class="comment">#若stack1空</span></span><br><span class="line">            <span class="keyword">while</span> self.stack2:<span class="comment">#在stack2非空时（此时，说明其中数据先进入队列）</span></span><br><span class="line">                self.stack1.append(self.stack2.pop())<span class="comment">#先将stack2中元素弹出并压入到stack1，形成新的待追加新元素的栈，</span></span><br><span class="line"><span class="comment">#我猜这样是为了方便后面的pop处理，因为这样不用判断stack2是否为空（经过形成新的stack1的处理，stack2始终为空），直接将stack1元素弹出压入stack2，再进行pop就好</span></span><br><span class="line">            self.stack1.append(node)<span class="comment">#然后压入新的元素，此步不可少，不然会造成新压入的第一个元素缺失</span></span><br><span class="line">            </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.stack2:</span><br><span class="line">            <span class="keyword">return</span> self.stack2.pop()</span><br><span class="line">        <span class="keyword">elif</span> self.stack1:</span><br><span class="line">            <span class="keyword">while</span> self.stack1:</span><br><span class="line">                self.stack2.append(self.stack1.pop())</span><br><span class="line">            <span class="keyword">return</span> self.stack2.pop()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">method = Solution()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">6</span>):</span><br><span class="line">    push = method.push(i)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"stack1="</span>,method.stack1)</span><br><span class="line">print(<span class="string">"stack2="</span>,method.stack2)</span><br></pre></td></tr></table></figure>
-
-<pre><code>stack1= [&apos;y&apos;, &apos;x&apos;, 1, 2, 3, 4, 5]
-stack2= []</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pop = method.pop()</span><br><span class="line">print(<span class="string">"stack1="</span>,method.stack1)</span><br><span class="line">print(<span class="string">"弹出的元素为"</span>,pop)</span><br><span class="line">print(<span class="string">"stack2="</span>,method.stack2)</span><br></pre></td></tr></table></figure>
-
-<pre><code>stack1= []
-弹出的元素为 y
-stack2= [5, 4, 3, 2, 1, &apos;x&apos;]</code></pre><p>由于在push方法中增加了对stack2的处理，原pop方法可以简化，因为处理后的stack2始终为空</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution1</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.stack1=[]</span><br><span class="line">        self.stack2=[<span class="number">6</span>,<span class="number">7</span>]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, node)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.stack2:</span><br><span class="line">            <span class="keyword">while</span> self.stack2:</span><br><span class="line">                self.stack1.append(self.stack2.pop())</span><br><span class="line">        self.stack1.append(node)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">pop</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> self.stack1:<span class="comment">#如果stack1不空</span></span><br><span class="line">            <span class="keyword">while</span> self.stack1:</span><br><span class="line">                self.stack2.append(self.stack1.pop())<span class="comment">#直接将stack1中元素弹出，再压入stack2，形成待弹出栈</span></span><br><span class="line">        <span class="keyword">return</span> self.stack2.pop()</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">method = Solution1()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">6</span>):</span><br><span class="line">    push = method.push(i)</span><br><span class="line"></span><br><span class="line">print(<span class="string">"stack1="</span>,method.stack1)</span><br><span class="line">print(<span class="string">"stack2="</span>,method.stack2)</span><br></pre></td></tr></table></figure>
-
-<pre><code>stack1= [7, 6, 1, 2, 3, 4, 5]
-stack2= []</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pop = method.pop()</span><br><span class="line">print(<span class="string">"stack1="</span>,method.stack1)</span><br><span class="line">print(<span class="string">"弹出的元素为"</span>,pop)</span><br><span class="line">print(<span class="string">"stack2="</span>,method.stack2)</span><br></pre></td></tr></table></figure>
-
-<pre><code>stack1= []
-弹出的元素为 7
-stack2= [5, 4, 3, 2, 1, 6]</code></pre><p>reference：</p>
-<p>1.<a href="https://blog.csdn.net/Datawhale/article/details/82118919" target="_blank" rel="noopener">https://blog.csdn.net/Datawhale/article/details/82118919</a></p>
-<p>2.<a href="https://blog.csdn.net/fuxuemingzhu/article/details/79499461" target="_blank" rel="noopener">https://blog.csdn.net/fuxuemingzhu/article/details/79499461</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-      
-        
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%987%EF%BC%9A%E9%87%8D%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/">面试题7：重建二叉树</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2020-01-09
-        </span>
-        
-          <span class="post-category">
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>题目： <a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="noopener">https://www.nowcoder.com/ta/coding-interviews</a></p>
-<p>输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。假设输入的前序遍历和中序遍历的结果中都不含重复的数字。例如输入前序遍历序列{1,2,4,7,3,5,6,8}和中序遍历序列{4,7,2,1,5,3,8,6}，则重建二叉树并返回。</p>
-<p>思考：</p>
-<p>前序遍历的第一个值是二叉树的根节点，中旬遍历中根节点（<strong>索引为i</strong>）前边的都是左子树的值（对应前序遍历[1:i+1]中的元素），后边的是右子树的值（对应前序遍历[i+1:]中的元素）；</p>
-<p>递归重复以上过程：取前序遍历[1:i+1]和中序遍历[:i]中的值重复上一个过程得到左子树,取前序遍历[i+1:]和中序遍历[i+1：]得到右子树</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#定义树节点</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.left = <span class="literal">None</span></span><br><span class="line">        self.right = <span class="literal">None</span></span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">PrintFromTopToBottom</span><span class="params">(root)</span>:</span><span class="comment">#打印二叉树（从上往下，同层节点从左至右打印）</span></span><br><span class="line">    array = []</span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">if</span> root == <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">    array.append(root)</span><br><span class="line">    <span class="keyword">while</span> array:</span><br><span class="line">        newNode = array.pop(<span class="number">0</span>)</span><br><span class="line">        result.append(newNode.val)</span><br><span class="line">        <span class="keyword">if</span> newNode.left != <span class="literal">None</span>:</span><br><span class="line">            array.append(newNode.left)</span><br><span class="line">        <span class="keyword">if</span> newNode.right != <span class="literal">None</span>:</span><br><span class="line">            array.append(newNode.right)</span><br><span class="line">    <span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
-
-<p>方法1</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reConstructBinaryTree</span><span class="params">(self, preorder,inorder)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> len(preorder) == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> len(preorder) == <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">return</span> TreeNode(preorder[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            index = inorder.index(preorder[<span class="number">0</span>])<span class="comment">#得到根节点在中序遍历中的索引</span></span><br><span class="line">            node = TreeNode(preorder[<span class="number">0</span>])<span class="comment">#根节点</span></span><br><span class="line">            </span><br><span class="line">            preorderLeft = preorder[<span class="number">1</span>:index+<span class="number">1</span>]<span class="comment">#左子树的元素</span></span><br><span class="line">            inorderLeft = inorder[:index]</span><br><span class="line">            preorderRight = preorder[index+<span class="number">1</span>:]<span class="comment">#右子树的元素</span></span><br><span class="line">            inorderRight = inorder[index+<span class="number">1</span>:]</span><br><span class="line">            </span><br><span class="line">            node.left = self.reConstructBinaryTree(preorderLeft,inorderLeft)<span class="comment">#递归调用重建方法self.XX()</span></span><br><span class="line">            node.right = self.reConstructBinaryTree(preorderRight,inorderRight)</span><br><span class="line">        <span class="keyword">return</span> node</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">solution = Solution()</span><br><span class="line">preorder_seq = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">8</span>]</span><br><span class="line">middleorder_seq = [<span class="number">4</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">6</span>]</span><br><span class="line"><span class="comment"># print(middleorder_seq[-4:])</span></span><br><span class="line">treeRoot1 = solution.reConstructBinaryTree(preorder_seq, middleorder_seq)</span><br><span class="line">newArray = PrintFromTopToBottom(treeRoot1)</span><br><span class="line">print(newArray)</span><br></pre></td></tr></table></figure>
-
-<pre><code>[5, 3, 8, 6]
-[1, 2, 3, 4, 5, 6, 7, 8]</code></pre><p>方法2</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">construct_tree</span><span class="params">(self, preorder=None, inorder=None)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        构建二叉树</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> preorder <span class="keyword">or</span> <span class="keyword">not</span> inorder:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">        index = inorder.index(preorder[<span class="number">0</span>])</span><br><span class="line">        left = inorder[<span class="number">0</span>:index]</span><br><span class="line">        right = inorder[index+<span class="number">1</span>:]</span><br><span class="line">        root = TreeNode(preorder[<span class="number">0</span>])</span><br><span class="line">        root.left = construct_tree(preorder[<span class="number">1</span>:<span class="number">1</span>+len(left)], left)<span class="comment">#这里其实有len(left)=index</span></span><br><span class="line">        root.right = construct_tree(preorder[-len(right):], right)</span><br><span class="line">        <span class="comment">#preorder[-3:]表示从-3到末尾处，包含-3这个索引（倒数第三）位置的元素</span></span><br><span class="line">        <span class="keyword">return</span> root</span><br></pre></td></tr></table></figure>
-
-<pre><code>[1, 2, 3, 4, 5, 6, 7, 8]</code></pre><p>参考：</p>
-<p><a href="https://blog.csdn.net/Datawhale/article/details/81948283" target="_blank" rel="noopener">https://blog.csdn.net/Datawhale/article/details/81948283</a></p>
-<p><a href="https://blog.csdn.net/fuxuemingzhu/article/details/70303139" target="_blank" rel="noopener">https://blog.csdn.net/fuxuemingzhu/article/details/70303139</a></p>
-<p><a href="https://blog.csdn.net/u010005281/article/details/79493413" target="_blank" rel="noopener">https://blog.csdn.net/u010005281/article/details/79493413</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-      
-        
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%986%EF%BC%9A%E4%BB%8E%E5%B0%BE%E5%88%B0%E5%A4%B4%E6%89%93%E5%8D%B0%E9%93%BE%E8%A1%A8/">面试题6：从头到尾打印链表</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2020-01-09
-        </span>
-        
-          <span class="post-category">
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>题目：<br><a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="noopener">https://www.nowcoder.com/ta/coding-interviews</a></p>
-<p>输入一个链表：</p>
-<p>按链表值从尾到头的顺序返回一个ArrayList。</p>
-<p>定义链表：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ListNode</span>:</span></span><br><span class="line">     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, x, next=None)</span>:</span></span><br><span class="line">        self.val = x</span><br><span class="line">        self.next = next</span><br></pre></td></tr></table></figure>
-
-<p>思考：</p>
-<p>读取链表中的元素，放入列表，倒序输出</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">printListFromTailToHead</span><span class="params">(self, listNode)</span>:</span></span><br><span class="line">        list=[]</span><br><span class="line">        <span class="keyword">while</span> listNode:</span><br><span class="line">            list.append(listNode.val)</span><br><span class="line">            listNode = listNode.next</span><br><span class="line"><span class="comment">#         return list[::1]#顺序列表</span></span><br><span class="line">        <span class="keyword">return</span> list[::<span class="number">-1</span>]<span class="comment">#逆序列表</span></span><br></pre></td></tr></table></figure>
-
-<p>疑问:链表的顺序感觉上跟直觉相反?在这里,用循环创建链表结构,最先创建的是末节点.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 根据节点定义,用循环创建一个链表结构:</span></span><br><span class="line"><span class="comment"># 5,4,3,2,1</span></span><br><span class="line"></span><br><span class="line">head = <span class="literal">None</span><span class="comment">#最后一个指向None</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">    head = ListNode(i,head)</span><br><span class="line">    print(<span class="string">"这是生成的链表数据"</span>,head.val)</span><br></pre></td></tr></table></figure>
-
-<pre><code>这是生成的链表数据 1
-这是生成的链表数据 2
-这是生成的链表数据 3
-这是生成的链表数据 4
-这是生成的链表数据 5</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">method = Solution()</span><br><span class="line">answer = method.printListFromTailToHead(head)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
-
-
-
-
-<pre><code>[1, 2, 3, 4, 5]</code></pre><p>python列表切片</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line">s = <span class="string">'abcdefg'</span></span><br><span class="line"><span class="comment"># 返回从起始位置到索引位置 2 处的字符串切片</span></span><br><span class="line">print(s[:<span class="number">3</span>]) <span class="comment"># 输出 'abc'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 返回从第三个索引位置到结尾的字符串切片</span></span><br><span class="line">print(s[<span class="number">3</span>:]) <span class="comment"># 输出 'defg'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 字符串逆序输出</span></span><br><span class="line">print(s[::<span class="number">-1</span>]) <span class="comment"># 输出 'gfedcba'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出从开始位置间隔一个字符组成的字符串</span></span><br><span class="line">print(s[::<span class="number">2</span>]) <span class="comment"># 输出 'aceg'</span></span><br><span class="line">print(range(<span class="number">10</span>)[::<span class="number">2</span>])  <span class="comment"># 会直接输出range(0, 10, 2)</span></span><br><span class="line">print(list(range(<span class="number">10</span>)[::<span class="number">2</span>])) <span class="comment">#这样才能输出偶数：[0, 2, 4, 6, 8]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 它们也可以相互结合使用。</span></span><br><span class="line"><span class="comment"># 从索引位置 6 到索引位置 2，逆向间隔一个字符</span></span><br><span class="line">print(s[<span class="number">6</span>:<span class="number">2</span>:<span class="number">-2</span>]) <span class="comment"># 输出'ge'</span></span><br></pre></td></tr></table></figure>
-
-<pre><code>abc
-defg
-gfedcba
-aceg
-range(0, 10, 2)
-ge</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(range(<span class="number">10</span>)[::<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
-
-<pre><code>range(0, 10, 2)</code></pre><p>reference：</p>
-<p>1.<a href="https://blog.csdn.net/Datawhale/article/details/81947290" target="_blank" rel="noopener">https://blog.csdn.net/Datawhale/article/details/81947290</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-      
-        
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%985%EF%BC%9A%E7%A9%BA%E6%A0%BC%E6%9B%BF%E6%8D%A2/">面试题5：空格替换</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2020-01-09
-        </span>
-        
-          <span class="post-category">
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p>题目：<br><a href="https://www.nowcoder.com/ta/coding-interviews" target="_blank" rel="noopener">https://www.nowcoder.com/ta/coding-interviews</a></p>
-<p>将特殊字符替换成ASCII码，例如空格对应32(0x20).在网络编程的背景中为了使服务器识别特殊字符需要做的转换是：</p>
-<p>空格—&gt;’%20’。</p>
-<p>例如：当字符串为’We Are Happy.’则经过替换之后的字符串为’We%20Are%20Happy.’</p>
-<p>思考：<br>基于python的特点，</p>
-<p>如何对字符串进行替换操作？先看看字符串中有哪些常用方法。</p>
-<p>观察到<strong>s.replace(old,new)</strong>可以对字符串进行替换</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">'we are happy.'</span></span><br></pre></td></tr></table></figure>
-
-<p>方法1. 利用python的语言特点作字符串替换</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">replaceSpace1</span><span class="params">(self, s)</span>:</span><span class="comment">#s为含空格字符串</span></span><br><span class="line">        <span class="keyword">return</span> s.replace(<span class="string">" "</span>, <span class="string">"%20"</span>)</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution()</span><br><span class="line">answer = method.replaceSpace1(s)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
-
-
-
-
-<pre><code>&apos;we%20are%20happy.&apos;</code></pre><p>方法2. 从前往后遍历，依次替换空格</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">replaceSpace2</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        s_new = <span class="string">""</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> s:</span><br><span class="line">            <span class="keyword">if</span> i == <span class="string">" "</span>:</span><br><span class="line">                i = <span class="string">"%20"</span></span><br><span class="line">            s_new += i</span><br><span class="line">        <span class="keyword">return</span> s_new</span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution()</span><br><span class="line">answer = method.replaceSpace2(s)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
-
-
-
-
-<pre><code>&apos;we%20are%20happy.&apos;</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">方法<span class="number">3.</span></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">replaceSpace3</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        s = list(s)<span class="comment">#转换成列表</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(s)):</span><br><span class="line">            <span class="keyword">if</span> s[i] == <span class="string">" "</span>:</span><br><span class="line">                s[i] = <span class="string">"%20"</span></span><br><span class="line"><span class="comment">#         return s</span></span><br><span class="line"><span class="comment">#         return " ".join(s)#用空格连接各个元素，返回如'w e %20 a r e %20 h a p p y .'</span></span><br><span class="line"><span class="comment">#         return "_".join(s)#用下划线'_'连接各个元素，返回如'w_e_%20_a_r_e_%20_h_a_p_p_y_.'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">""</span>.join(s)<span class="comment">#不用空格或其他任何东西连接各个元素，返回如'we%20are%20happy.'</span></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution()</span><br><span class="line">answer = method.replaceSpace3(s)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
-
-
-
-
-<pre><code>&apos;we%20are%20happy.&apos;</code></pre><p>join的用法简单来说就是连接字符串。</p>
-<p>join将<strong>容器对象</strong>拆分并以指定的字符将列表内的元素(element)连接起来，返回字符串（注：容器对象内的元素须为字符类型）</p>
-<p><a href="https://www.cnblogs.com/hokky/p/8479991.html" target="_blank" rel="noopener">https://www.cnblogs.com/hokky/p/8479991.html</a></p>
-<p><strong>与join相反，split以指定的字符将字符串分割为单个元素(字符类型)并加入list中，返回一个List</strong></p>
-<p>reference：</p>
-<p>1.<a href="https://blog.csdn.net/Datawhale/article/details/81944081" target="_blank" rel="noopener">https://blog.csdn.net/Datawhale/article/details/81944081</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-        
-      
-    </div>
-
-    
-
-    
-
-  </article>
-
-      
-        
-  <article class="post">
-    <header class="post-header">
-      <h1 class="post-title">
-        
-          <a class="post-link" href="/2020/01/09/%E9%9D%A2%E8%AF%95%E9%A2%984%EF%BC%9A%E4%BA%8C%E7%BB%B4%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9F%A5%E6%89%BE/">面试题4：二维数组中的查找</a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <span class="post-time">
-          2020-01-09
-        </span>
-        
-          <span class="post-category">
-            
-              <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-            
-          </span>
-        
-        
-      </div>
-    </header>
-
-    
-    
-
-
-    <div class="post-content">
-      
-        
-        
-
-        
-          <p><strong>题目：</strong><br>在一个二维数组中（每个一维数组的长度相同），<br>每一行都按照从左到右递增的顺序排序；<br>每一列都按照从上到下递增的顺序排序；<br>请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
-<p><strong>思考：</strong><br>什么是二维数组？<br>直观的想到矩阵,实际上python当中没有数组的概念, 而是列表(List), 二维列表相当于二维数组 。<br>如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">array = np.array([[<span class="number">1</span>,<span class="number">2</span>,<span class="number">8</span>,<span class="number">9</span>],[<span class="number">2</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">12</span>],[<span class="number">4</span>,<span class="number">7</span>,<span class="number">10</span>,<span class="number">13</span>],[<span class="number">6</span>,<span class="number">8</span>,<span class="number">11</span>,<span class="number">15</span>]])</span><br><span class="line">array<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-<pre><code>array([[ 1,  2,  8,  9],
-       [ 2,  4,  9, 12],
-       [ 4,  7, 10, 13],
-       [ 6,  8, 11, 15]])</code></pre><p><strong>实现</strong></p>
-<p>1.最直观的是直接循环遍历每一个元素，判断是否等于给定的整数，如果相等则输出存在，否则不存在</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="comment"># array 二维列表</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Find</span><span class="params">(self, target, array)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(array)):<span class="comment"># row = len(array) #列表的长度（有多少个元素，这里元素也是列表），可以看作是二维数组的行数</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(len(array[<span class="number">0</span>])):<span class="comment">#col = len(array[0])#列表第0个元素的长度，可以看作是二维数组的列数</span></span><br><span class="line">                <span class="keyword">if</span> array[i][j] == target:</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">method = Solution()</span><br><span class="line">answer = method.Find(<span class="number">70</span>,array)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
-
-
-
-<p>2.由于数组元素是分别<strong>按行按列递增</strong>的，考虑:将目标值与较大的元素进行比较,通过排除较大值向下遍历</p>
-<p>从<strong>最后一行第一列</strong>开始遍历,记给定的整数为target，数组元素为array[i][j]<br>如果 target &lt; array[i][j] 则<strong>行数减1</strong><br>如果 target &gt; array[i][j] 则<strong>列数加1</strong><br>如果 target == array[i][j] 则返还True</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="comment"># array 二维列表</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">Find</span><span class="params">(self, target, array)</span>:</span></span><br><span class="line">        fond = <span class="number">0</span></span><br><span class="line">        row = len(array) - <span class="number">1</span> </span><br><span class="line">        col = len(array[<span class="number">0</span>]) - <span class="number">1</span> </span><br><span class="line">        i = row</span><br><span class="line">        j = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> i &gt;= <span class="number">0</span> <span class="keyword">and</span> j &lt;= col:</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> target &lt; array[i][j]:</span><br><span class="line">                i = i - <span class="number">1</span></span><br><span class="line">            <span class="keyword">elif</span> target &gt; array[i][j]:</span><br><span class="line">                j = j + <span class="number">1</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">method = Solution()</span><br><span class="line">answer=method.Find(<span class="number">5</span>,array)</span><br><span class="line">answer</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 
         
       
@@ -876,6 +780,64 @@ ge</code></pre><figure class="highlight python"><table><tr><td class="gutter"><p
 6. https://www.jianshu.com/p/8681ab76da08
 7. https://blog.csdn.net/ainuser/article/details/77609180
 8. https://www.jianshu.com/p/189fd945f38f</code></pre>
+        
+      
+    </div>
+
+    
+
+    
+
+  </article>
+
+      
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          <a class="post-link" href="/2020/01/09/%E4%BF%AE%E6%94%B9jupyter-notebook%E9%BB%98%E8%AE%A4%E5%B7%A5%E4%BD%9C%E8%B7%AF%E5%BE%84/">修改jupyter notebook默认工作路径</a>
+        
+      </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2020-01-09
+        </span>
+        
+          <span class="post-category">
+            
+              <a href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+            
+          </span>
+        
+        
+      </div>
+    </header>
+
+    
+    
+
+
+    <div class="post-content">
+      
+        
+        
+
+        
+          <h1 id="1-生成配置文件"><a href="#1-生成配置文件" class="headerlink" title="1.生成配置文件"></a>1.生成配置文件</h1><p>在工作虚拟环境下执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jupyter-notebook --generate-config</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-在配置文件中修改-设置默认路径"><a href="#2-在配置文件中修改-设置默认路径" class="headerlink" title="2.在配置文件中修改/设置默认路径"></a>2.在配置文件中修改/设置默认路径</h1><p><strong>打开配置文件</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">code ~/.jupyter/jupyter_notebook_config.py</span><br></pre></td></tr></table></figure>
+
+<p><strong>搜索找到以下字段</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">c.NotebookApp.notebook_dir = <span class="string">''</span></span></span><br></pre></td></tr></table></figure>
+
+<p>取消注释并在‘’中填入想要的工作路径，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c.NotebookApp.notebook_dir = /home/zongpu/AnacondaProjects</span><br></pre></td></tr></table></figure>
+
+
         
       
     </div>
@@ -1121,7 +1083,7 @@ ge</code></pre><figure class="highlight python"><table><tr><td class="gutter"><p
     <header class="post-header">
       <h1 class="post-title">
         
-          <a class="post-link" href="/2020/01/09/CUDA+cuDNN+TF-%E5%AE%89%E8%A3%85%E6%B5%81%E7%A8%8B%E5%92%8C%E7%BB%8F%E9%AA%8C%E6%95%99%E8%AE%AD/">CUDA+cuDNN+TF 安装流程和经验教训</a>
+          <a class="post-link" href="/2020/01/09/hello-world/">Hello World</a>
         
       </h1>
 
@@ -1129,12 +1091,6 @@ ge</code></pre><figure class="highlight python"><table><tr><td class="gutter"><p
         <span class="post-time">
           2020-01-09
         </span>
-        
-          <span class="post-category">
-            
-              <a href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
-            
-          </span>
         
         
       </div>
@@ -1150,153 +1106,19 @@ ge</code></pre><figure class="highlight python"><table><tr><td class="gutter"><p
         
 
         
-          <p><strong>摘要</strong>：Ubuntu18.04、GCC降低、CUDA版本的选择、cuDNN的选择<br><strong>前言</strong>：在经历一整天反复安装卸载后决定对每一步进行详细记录和分析</p>
-<h1 id="对版本选择的考虑"><a href="#对版本选择的考虑" class="headerlink" title="对版本选择的考虑"></a>对版本选择的考虑</h1><p>我的目的是在Ubuntu18.04安装GPU版本的Tensorflow进行学习,根据TF官网对CUDA&amp;cuDNN的支持信息：</p>
-<blockquote>
-<h2 id="软件要求"><a href="#软件要求" class="headerlink" title="软件要求"></a>软件要求</h2><p>必须在您的系统上安装以下NVIDIA®软件：</p>
-<ul>
-<li>NVIDIA®GPU <a href="https://www.nvidia.com/drivers" target="_blank" rel="noopener">驱动程序</a> -CUDA 9.0需要384.x或更高版本。</li>
-<li><a href="https://developer.nvidia.com/cuda-zone" target="_blank" rel="noopener">CUDA®Toolkit-</a> TensorFlow支持CUDA 9.0。</li>
-<li><a href="http://docs.nvidia.com/cuda/cupti/" target="_blank" rel="noopener">CUPTI</a>附带CUDA工具包。</li>
-<li><a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">cuDNN SDK</a>（&gt; = 7.2）</li>
-<li><em>（可选）</em> <a href="https://developer.nvidia.com/nccl" target="_blank" rel="noopener">NCCL 2.2</a>支持多GPU支持。</li>
-<li><em>（可选）</em> <a href="https://docs.nvidia.com/deeplearning/sdk/tensorrt-install-guide/index.html" target="_blank" rel="noopener">TensorRT 4.0</a> 可以改善某些型号推理的延迟和吞吐量。</li>
-</ul>
-</blockquote>
-<p>于是在考虑最新的TF版本情况下，我决定安装<strong>CUDA9.0+cuDNN7.3</strong>版本</p>
-<p>cuda：<a href="https://developer.nvidia.com/cuda-90-download-archive?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1704&amp;target_type=runfilelocal" target="_blank" rel="noopener">https://developer.nvidia.com/cuda-90-download-archive?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1704&amp;target_type=runfilelocal</a></p>
-<p>cudnn：<a href="https://developer.nvidia.com/rdp/cudnn-download（需要先注册账户）" target="_blank" rel="noopener">https://developer.nvidia.com/rdp/cudnn-download（需要先注册账户）</a></p>
-<p>然而尴尬的是CUDA9.0没有ubuntu18.04的选择，不想重装ubuntu，于是我决定下载17.04版本试试看</p>
-<p>最终下载版本：cuda_9.0.176_384.81_linux.run &amp; cudnn-9.0-linux-x64-v7.3.1.20.tgz</p>
-<h1 id="安装CUDA"><a href="#安装CUDA" class="headerlink" title="安装CUDA"></a>安装CUDA</h1><h2 id="1-安装依赖关系"><a href="#1-安装依赖关系" class="headerlink" title="1.安装依赖关系"></a>1.安装依赖关系</h2><p>参考：<a href="https://www.cnblogs.com/Ph-one/p/9000211.html" target="_blank" rel="noopener">https://www.cnblogs.com/Ph-one/p/9000211.html</a></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev</span><br></pre></td></tr></table></figure>
+          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 
-<p>根据诸多博客的经验，还需要先降低GCC版本，以下是我的gcc版本信息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@zhou-pc:~# gcc --version</span><br><span class="line">gcc (Ubuntu 7.3.0-27ubuntu1~18.04) 7.3.0</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
-<p>降低GCC版本：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gcc-5 g++-5</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>根据提示开始安装低版本</p>
-<p>然后替换：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 50   # you will find that message that tells you the gcc-5 is set to be automatic.</span><br><span class="line">sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 50   # similiar message as gcc</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>值得一提的是文章<a href="https://blog.csdn.net/sinat_40276791/article/details/80403784中提到说：**安装cuda的时候并没有降级gcc，g++；说明cuda9.0已经支持gcc7.0安装，所谓降级是后面要编译cuda测试例子的时候用到6.0以下的g++，和gcc版本。**但是我的gcc版本较高，为保险，我还是先降低。" target="_blank" rel="noopener">https://blog.csdn.net/sinat_40276791/article/details/80403784中提到说：**安装cuda的时候并没有降级gcc，g++；说明cuda9.0已经支持gcc7.0安装，所谓降级是后面要编译cuda测试例子的时候用到6.0以下的g++，和gcc版本。**但是我的gcc版本较高，为保险，我还是先降低。</a></p>
-<h2 id="2-开始安装CUDA"><a href="#2-开始安装CUDA" class="headerlink" title="2.开始安装CUDA"></a>2.开始安装CUDA</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@zhou-pc:~# cd /home/zongpu/下载 </span><br><span class="line">root@zhou-pc:/home/zongpu/下载# sudo sh cuda_9.0.176_384.81_linux.run</span><br></pre></td></tr></table></figure>
-
-<p>ctrl+c 可快速结束阅读文档</p>
-<p>接下来：</p>
-<p>Do you accept the previously read EULA?<br>accept/decline/quit: accept</p>
-<p>看到这个我是很荒的，但是博客<a href="https://www.cnblogs.com/Ph-one/p/9000211.html也是在ubuntu18.04上安装了cuda9，就当试试" target="_blank" rel="noopener">https://www.cnblogs.com/Ph-one/p/9000211.html也是在ubuntu18.04上安装了cuda9，就当试试</a></p>
-<p>You are attempting to install on an unsupported configuration. Do you wish to continue?<br>(y)es/(n)o [ default is no ]: </p>
-<p>其他选项我都选了y（es），静静等待安装。</p>
-<p>设置环境变量：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<p>#在打开的文本中添加</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/usr/local/cuda-9.0/bin:$PATH</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH</span><br></pre></td></tr></table></figure>
-
-<p>更新：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<p>验证CUDA9.0是否安装成功：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/cuda-9.0/samples/1_Utilities/deviceQuery</span><br><span class="line">sudo make</span><br><span class="line">./deviceQuery</span><br></pre></td></tr></table></figure>
-
-<p>输出为：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">CUDA Device Query (Runtime API) version (CUDART static linking)</span><br><span class="line">Detected 1 CUDA Capable device(s)</span><br><span class="line">Device 0: "GeForce GTX 1050"</span><br><span class="line">  CUDA Driver Version / Runtime Version          9.1 / 9.0</span><br><span class="line">  CUDA Capability Major/Minor version number:    6.1</span><br><span class="line">  Total amount of global memory:                 2003 MBytes (2099904512 bytes)</span><br><span class="line">  ( 5) Multiprocessors, (128) CUDA Cores/MP:     640 CUDA Cores</span><br><span class="line">  GPU Max Clock rate:                            1493 MHz (1.49 GHz)</span><br><span class="line">  Memory Clock rate:                             3504 Mhz</span><br><span class="line">  Memory Bus Width:                              128-bit</span><br><span class="line">  L2 Cache Size:                                 524288 bytes</span><br><span class="line">  Maximum Texture Dimension Size (x,y,z)         1D=(131072), 2D=(131072, 65536), 3D=(16384, 16384, 16384)</span><br><span class="line">  Maximum Layered 1D Texture Size, (num) layers  1D=(32768), 2048 layers</span><br><span class="line">  Maximum Layered 2D Texture Size, (num) layers  2D=(32768, 32768), 2048 layers</span><br><span class="line">  Total amount of constant memory:               65536 bytes</span><br><span class="line">  Total amount of shared memory per block:       49152 bytes</span><br><span class="line">  Total number of registers available per block: 65536</span><br><span class="line">  Warp size:                                     32</span><br><span class="line">  Maximum number of threads per multiprocessor:  2048</span><br><span class="line">  Maximum number of threads per block:           1024</span><br><span class="line">  Max dimension size of a thread block (x,y,z): (1024, 1024, 64)</span><br><span class="line">  Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)</span><br><span class="line">  Maximum memory pitch:                          2147483647 bytes</span><br><span class="line">  Texture alignment:                             512 bytes</span><br><span class="line">  Concurrent copy and kernel execution:          Yes with 2 copy engine(s)</span><br><span class="line">  Run time limit on kernels:                     Yes</span><br><span class="line">  Integrated GPU sharing Host Memory:            No</span><br><span class="line">  Support host page-locked memory mapping:       Yes</span><br><span class="line">  Alignment requirement for Surfaces:            Yes</span><br><span class="line">  Device has ECC support:                        Disabled</span><br><span class="line">  Device supports Unified Addressing (UVA):      Yes</span><br><span class="line">  Supports Cooperative Kernel Launch:            Yes</span><br><span class="line">  Supports MultiDevice Co-op Kernel Launch:      Yes</span><br><span class="line">  Device PCI Domain ID / Bus ID / location ID:   0 / 1 / 0</span><br><span class="line">  Compute Mode:</span><br><span class="line">     &lt; Default (multiple host threads can use ::cudaSetDevice() with device simultaneously) &gt;</span><br><span class="line"></span><br><span class="line">deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 9.1, CUDA Runtime Version = 9.0, NumDevs = 1</span><br><span class="line">Result = PASS</span><br></pre></td></tr></table></figure>
-
-<p>测试说明安装成功！</p>
-<h1 id="安装cuDNN"><a href="#安装cuDNN" class="headerlink" title="安装cuDNN"></a>安装cuDNN</h1><p>之前已经下载好了文件现在直接安装：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf cudnn-9.0-linux-x64-v7.3.1.20.tgz</span><br><span class="line"></span><br><span class="line">sudo cp cuda/include/cudnn.h /usr/local/cuda/include/ </span><br><span class="line">sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64/ -d </span><br><span class="line">sudo chmod a+r /usr/local/cuda/include/cudnn.h </span><br><span class="line">sudo chmod a+r /usr/local/cuda/lib64/libcudnn*</span><br></pre></td></tr></table></figure>
-
-<p>执行以上命令后，测试是否安装好：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvcc -V</span><br></pre></td></tr></table></figure>
-
-<p>输出：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nvcc: NVIDIA (R) Cuda compiler driver</span><br><span class="line">Copyright (c) 2005-2017 NVIDIA Corporation</span><br><span class="line">Built on Fri_Sep__1_21:08:03_CDT_2017</span><br><span class="line">Cuda compilation tools, release 9.0, V9.0.176</span><br></pre></td></tr></table></figure>
-
-<p>cuDNN安装成功！</p>
-<h1 id="安装Tensorflow"><a href="#安装Tensorflow" class="headerlink" title="安装Tensorflow"></a>安装Tensorflow</h1><h2 id="1检查并准备所需python环境"><a href="#1检查并准备所需python环境" class="headerlink" title="1检查并准备所需python环境"></a>1检查并准备所需python环境</h2><p>根据TF官网安装引导查看：<a href="https://tensorflow.google.cn/install/pip" target="_blank" rel="noopener">https://tensorflow.google.cn/install/pip</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 --version</span><br><span class="line">pip3 --version</span><br><span class="line">virtualenv --version</span><br></pre></td></tr></table></figure>
-
-<p>发现：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Command 'virtualenv' not found, but can be installed with:</span><br><span class="line">apt install virtualenv</span><br></pre></td></tr></table></figure>
-
-<p>我的virtualenv 没有安装，根据提示安装virtualenv ：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install virtualenv</span><br></pre></td></tr></table></figure>
-
-<p>安装成功后，安装TF，在这里我用官网引导的安装方式：创建Python虚拟环境用于将程序包安装与系统隔离，</p>
-<p>不同于在之前我自己直接pip install tensorflow-gpu</p>
-<p>步骤如下：</p>
-<p>通过选择Python解释器并创建一个<code>./venv</code>目录来保存它，从而创建一个新的虚拟环境 ：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">virtualenv --system-site-packages -p python3 ./venv</span><br></pre></td></tr></table></figure>
-
-<p>如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@zhou-pc:~# virtualenv --system-site-packages -p python3 ./venv</span><br><span class="line">Running virtualenv with interpreter /usr/bin/python3</span><br><span class="line">Using base prefix '/usr'</span><br><span class="line">New python executable in /root/venv/bin/python3</span><br><span class="line">Not overwriting existing python script /root/venv/bin/python (you must use /root/venv/bin/python3)</span><br><span class="line">Installing setuptools, pip, wheel...done.</span><br></pre></td></tr></table></figure>
-
-<p>使用特定于shell的命令激活虚拟环境（以后每次使用TF前激活）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ./venv/bin/activate  # sh, bash, ksh, or zsh</span><br></pre></td></tr></table></figure>
-
-<p>当virtualenv处于活动状态时，shell提示符前缀为<code>(venv)</code>，如下：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@zhou-pc:~# source ./venv/bin/activate </span><br><span class="line">(venv) root@zhou-pc:~#</span><br></pre></td></tr></table></figure>
-
-<p>在虚拟环境中安装软件包，而不会影响主机系统设置。从升级开始<code>pip</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade pip</span><br><span class="line"></span><br><span class="line">pip list  # show packages installed within the virtual environment</span><br></pre></td></tr></table></figure>
-
-<p>并在以后退出virtualenv（我们要在这个环境中安装TF，现在不能退出）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate    ＃在使用TensorFlow完成之前不要退出</span><br></pre></td></tr></table></figure>
-
-<p><strong>值得一提的是：当环境创建好了，我们必须在每次使用tensorflow时激活它</strong></p>
-<h2 id="2-安装TensorFlow-在虚拟环境venv中"><a href="#2-安装TensorFlow-在虚拟环境venv中" class="headerlink" title="2.安装TensorFlow(在虚拟环境venv中)"></a>2.安装TensorFlow(在虚拟环境venv中)</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install tensorflow-gpu</span><br><span class="line">pip install --upgrade tensorflow</span><br><span class="line">python -c "import tensorflow as tf; print(tf.__version__)"</span><br></pre></td></tr></table></figure>
-
-<p>最后输出：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(venv) root@zhou-pc:~# python -c "import tensorflow as tf; print(tf.__version__)"</span><br><span class="line">1.11.0</span><br></pre></td></tr></table></figure>
-
-<p>greaat！现在我们安装TF成功！</p>
-<p><strong>一个问题：</strong>在虚拟环境中安装的始终是cpu版本，不知道为什么；不在虚拟环境中可顺利安装GPU版本。</p>
-<h2 id="3-做一些测试-在venv环境以及非虚拟环境"><a href="#3-做一些测试-在venv环境以及非虚拟环境" class="headerlink" title="3.做一些测试(在venv环境以及非虚拟环境)"></a>3.做一些测试(在venv环境以及非虚拟环境)</h2><p>执行：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">hello = tf.constant(<span class="string">'Hello, TensorFlow!'</span>)</span><br><span class="line">sess = tf.Session()</span><br><span class="line">print(sess.run(hello))</span><br></pre></td></tr></table></figure>
-
-<p>非虚拟环境时可看到（展示部分）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GeForce GTX 1050, pci bus id: 0000:01:00.0, compute capability: 6.1</span><br></pre></td></tr></table></figure>
-
-<p>虚拟环境中：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA</span><br></pre></td></tr></table></figure>
-
-<h1 id="安装keras"><a href="#安装keras" class="headerlink" title="安装keras"></a>安装keras</h1><p>参考：<a href="https://keras-cn.readthedocs.io/en/latest/for_beginners/keras_linux/" target="_blank" rel="noopener">https://keras-cn.readthedocs.io/en/latest/for_beginners/keras_linux/</a></p>
-<p>类似指令比较多，我没有关注他们的区别：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install -U --pre keras</span><br><span class="line"><span class="meta">#</span><span class="bash">或者...</span></span><br><span class="line">pip install keras -U --pre</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="安装anaconda"><a href="#安装anaconda" class="headerlink" title="安装anaconda"></a>安装anaconda</h1><p>先下载anaconda的安装文件，我的版本是：Anaconda3-5.3.0-Linux-x86_64.sh</p>
-<p>cd进文件所在目录执行：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash Anaconda3-5.3.0-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
-
-<p>阅读文档（ctrl+c快速读完），按提示选择各个选项，进行安装：</p>
-<p>其中涉及安装路径、添加环境变量、安装vs code的几个选项，根据提示选择。</p>
-<p>但是安装时我选了环境变量后来还是不能启动anaconda，于是手动添加了一遍：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 将anaconda的bin目录加入PATH，根据版本不同，也可能是~/anaconda3/bin</span></span><br><span class="line">echo 'export PATH="~/anaconda3/bin:$PATH"'&gt;&gt; ~/.bashrc</span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新bashrc以立即生效</span></span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
-
-<p>执行：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda list</span><br></pre></td></tr></table></figure>
-
-<p>看到各个组件信息则为成功</p>
-<p>启动anaconda（暂停终端则断开）：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">anaconda-navigator</span><br></pre></td></tr></table></figure>
-
-<p>打开 Jupyter Notebook：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipython notebook</span><br></pre></td></tr></table></figure>
-
-<p>在最开始安装anaconda时，<strong>我用root权限进行安装，结果Jupyter不能运行</strong>，</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@zhou-pc:/home/zongpu/下载# ipython notebook</span><br><span class="line">[TerminalIPythonApp] WARNING | Subcommand `ipython notebook` is deprecated and will be removed in future versions.</span><br><span class="line">[TerminalIPythonApp] WARNING | You likely want to use `jupyter notebook` in the future</span><br><span class="line">[I 18:30:46.711 NotebookApp] JupyterLab extension loaded from /root/anaconda3/lib/python3.7/site-packages/jupyterlab</span><br><span class="line">[I 18:30:46.711 NotebookApp] JupyterLab application directory is /root/anaconda3/share/jupyter/lab</span><br><span class="line">[C 18:30:46.713 NotebookApp] Running as root is not recommended. Use --allow-root to bypass.</span><br></pre></td></tr></table></figure>
-
-<p>这应该是我对anaconda的作用不太了解，另外都使用了默认安装路径，不知道在以后要用到的时候会不会出问题。</p>
-<p>卸载anaconda：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~/anaconda3</span><br></pre></td></tr></table></figure>
-
-<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>一篇基于anacond安装TF的文章：</p>
-<p><em>Ubuntu环境下基于Anaconda安装Tensorflow</em><a href="https://blog.csdn.net/hgdwdtt/article/details/78633232" target="_blank" rel="noopener">https://blog.csdn.net/hgdwdtt/article/details/78633232</a></p>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 
         
       
