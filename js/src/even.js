@@ -9,8 +9,6 @@
     var leancloud = this.config.leancloud;
 
     this.navbar();
-    this.responsiveTable();
-
     if (this.config.toc) {
       this.scrollToc();
       this.tocFollow();
@@ -21,8 +19,8 @@
     if (leancloud.app_id && leancloud.app_key) {
       this.recordReadings();
     }
-    if(this.config.latex) {
-      this.renderLaTeX();
+    if (this.config.pjax) {
+      this.pjax();
     }
     this.backToTop();
   };
@@ -56,11 +54,6 @@
     $('#mobile-panel').on('touchend', function () {
       slideout.isOpen() && $navIcon.click();
     });
-  };
-
-  Even.prototype.responsiveTable = function () {
-    var tables = $('.post-content > table')
-    tables.wrap('<div class="table-responsive">')
   };
 
   Even.prototype.scrollToc = function () {
@@ -106,10 +99,11 @@
     var $toclink = $('.toc-link'),
       $headerlink = $('.headerlink');
 
+    var headerlinkTop = $.map($headerlink, function (link) {
+      return $(link).offset().top;
+    });
+
     $(window).scroll(function () {
-      var headerlinkTop = $.map($headerlink, function (link) {
-        return $(link).offset().top;
-      });
       var scrollTop = $(window).scrollTop();
 
       for (var i = 0; i < $toclink.length; i++) {
@@ -183,18 +177,13 @@
           newcounter.set('url', url);
           newcounter.set('time', 1);
 
-          var acl = new AV.ACL();
-          acl.setWriteAccess('*', true)
-          acl.setReadAccess('*', true)
-          newcounter.setACL(acl)
-
           newcounter.save().then(function () {
             updateVisits($visits, newcounter.get('time'));
           });
         }
       }, function (error) {
         // eslint-disable-next-line
-        console.log('Error:' + error.code + ' ' + error.message);
+        console.log('Error:' + error.code + " " + error.message);
       });
     }
 
@@ -214,10 +203,27 @@
           }
         }, function (error) {
           // eslint-disable-next-line
-          console.log('Error:' + error.code + ' ' + error.message);
+          console.log('Error:' + error.code + " " + error.message);
         });
       })
     }
+  };
+
+  Even.prototype.pjax = function () {
+    if (location.hostname === 'localhost' || this.hasPjax) return;
+    this.hasPjax = true;
+
+    var that = this;
+    $(document).pjax('a', 'body', { fragment: 'body' });
+    $(document).on('pjax:send', function () {
+      NProgress.start();
+      $('body').addClass('hide-top');
+    });
+    $(document).on('pjax:complete', function () {
+      NProgress.done();
+      $('body').removeClass('hide-top');
+      that.setup();
+    });
   };
 
   Even.prototype.backToTop = function () {
@@ -235,17 +241,6 @@
       $('body,html').animate({ scrollTop: 0 });
     });
   };
-
-  Even.prototype.renderLaTeX = function () {
-    var loopID = setInterval(function () {
-      if(window.MathJax) {
-        var jax = window.MathJax;
-        jax.Hub.Config({ tex2jax: { inlineMath: [['$', '$'], ['\\(', '\\)']] }});
-        jax.Hub.Queue(['Typeset', jax.Hub, $(document.body)[0]]);
-        clearInterval(loopID);
-      }
-    }, 500);
-  }
 
   var config = window.config;
   var even = new Even(config);
